@@ -13,20 +13,11 @@
       "home": { "height": "385px", "autoplay": "1" },
       "details": { "height": "425px", "autoplay": "0" },
       "related": { "height": "425px", "autoplay": "1" }
-    }
-
-    let d = document.createElement('div');
-    let outerHTML = `<iframe id="yt-${ytID}" class="youtube-player vtop" type="text/html" width="100%" height="${config[type].height}" src="https://www.youtube.com/embed/${ytID}?wmode=opaque&fs=1&rel=0&autohide=0&autoplay=${config[type].autoplay}" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>`;
-    
-    if (type === 'home') {
-      d.innerHTML = outerHTML;
-    } else {
-      let e = document.createElement('div')
-      e.classList.add('videoWrapper');
-      e.innerHTML = outerHTML;
-      d.innerHTML = e.innerHTML;
-    }
-    return d.firstChild;
+    };
+    let outerHTML = `<div class="videoWrapper"><iframe id="yt-${ytID}" class="youtube-player vtop" type="text/html" width="100%" height="${config[type].height}" src="https://www.youtube.com/embed/${ytID}?wmode=opaque&fs=1&rel=0&autohide=0&autoplay=${config[type].autoplay}" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe></div>`;
+    outerHTML = new DOMParser().parseFromString(outerHTML, "text/html");
+    outerHTML = type !== 'home' ? outerHTML.querySelector('.videoWrapper') : outerHTML.querySelector('iframe');
+    return outerHTML;
   };
   
   new MutationObserver(function(element) {
